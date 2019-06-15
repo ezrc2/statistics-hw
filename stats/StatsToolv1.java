@@ -10,10 +10,12 @@ public class StatsTool {
 	private ArrayList<Double> list;
 	private Scanner scan;
 	private double mean;
+	private double stdDev;
 	private double median;
-	private double mode;
+	private ArrayList<Double> modes;
 	private double maxNum;
 	private double minNum;
+	private double IQR;
 	private double lowerQ;
 	private double upperQ;
 	private double lowerFence;
@@ -42,72 +44,84 @@ public class StatsTool {
 		}
 		else median = list.get(list.size() / 2 - 1);
 		
-		int sum = 0;
-		for (Double d : list) sum += d;
+		double sum = 0;
+		for (Double d : list)
+			sum += d;
 		mean = sum / list.size();
+		
+		sum = 0;
+		for (Double d : list)
+			sum += Math.pow(d - mean, 2);
+		stdDev = Math.sqrt(sum / (list.size() - 1));
 		
 		HashMap<Double, Integer> map = new HashMap<Double, Integer>();
 		for (Double d : list) {
-			if (!map.containsKey(d)) map.put(d, 0);
+			if (!map.containsKey(d)) map.put(d, 1);
 			else map.put(d, map.get(d) + 1);
 		}
-		Double max = 0.0;
+		
 		int count = 0;
 		for (Double d : map.keySet()) {
 			if (map.get(d) > count) {
 				count = map.get(d);
-				max = d;
 			}
 		}
-		mode = max;
+		modes = new ArrayList<Double>();
+		for (Double d : map.keySet()) {
+			if (map.get(d) == count)
+				modes.add(d);
+		}
 		
 		maxNum = list.get(list.size() - 1);
 		minNum = list.get(0);
 		lowerQ = list.get(list.size() / 4);
 		upperQ = list.get(list.size() * 3 / 4);
 	
-		double IQR = upperQ - lowerQ;
+		IQR = upperQ - lowerQ;
 		lowerFence = lowerQ - 1.5 * IQR;
 		upperFence = upperQ + 1.5 * IQR;
 		
 		outliers = new ArrayList<Double>();
-		for (int i = 0; i < list.size() / 2; i++) {
-			if (list.get(i) < lowerFence)
-				outliers.add(list.get(i));
-			else
-				break;
-		}
-		for (int i = list.size() - 1; i > list.size() / 2; i--) {
-			if (list.get(i) > upperFence)
-				outliers.add(list.get(i));
-			else
-				break;
-		}
-		
+		int i = 0;
+		while (list.get(i) < lowerFence)
+			outliers.add(list.get(i++));
+		i = list.size() - 1;
+		while (list.get(i) > upperFence)
+			outliers.add(list.get(i--));
 		
 		print();
 	}
 	
 	private void print() {
-		String s = "";
+		String m = "";
+		if (modes.size() > 1) {
+			for (Double d : modes)
+				m += d + ", ";
+			m = m.substring(0, m.length() - 2);
+		}
+		else
+			m = String.valueOf(modes.get(0));
+		String o = "";
 		if (outliers.size() > 0) {
 			for (Double d : outliers)
-				s += d + ", ";
-			s = s.substring(0, s.length() - 2);
+				o += d + ", ";
+			o = o.substring(0, o.length() - 2);
 		}
-		else s = "none";
+		else o = "none";
 		
-		System.out.println("count:\t" + list.size()
-						 + "\nmean:\t" + mean 
-				         + "\nmedian:\t" + median 
-				         + "\nmode:\t" + mode
-				         + "\nmax:\t" + maxNum
-				         + "\nmin:\t" + minNum
-				         + "\nlower quartile: " + lowerQ
-				         + "\nupper quartile: " + upperQ
-				         + "\nlower fence: " + lowerFence
-				         + "\nupper fence: " + upperFence
-				         + "\noutliers: " + s);
+		System.out.println("count:\t\t" + list.size()
+						 + "\nmean:\t\t" + mean 
+						 + "\nstdDev:\t\t" + stdDev
+				         + "\nmedian:\t\t" + median 
+				         + "\nmode(s):\t" + m
+				         + "\nmax:\t\t" + maxNum
+				         + "\nmin:\t\t" + minNum
+				         + "\nQ1:\t\t" + lowerQ
+				         + "\nQ3:\t\t" + upperQ
+				         + "\nIQR:\t\t" + IQR
+				         + "\nlower fence:\t" + lowerFence
+				         + "\nupper fence:\t" + upperFence
+				         + "\noutliers:\t" + o);
 	}
 	
 	
