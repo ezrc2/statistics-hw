@@ -51,7 +51,7 @@ public class StatsTool {
 		for (Double d : list)
 			sum += Math.pow(d - mean, 2);
 		stdDev = Math.sqrt(sum / (list.size() - 1));
-		
+		 
 		HashMap<Double, Integer> map = new HashMap<Double, Integer>();
 		for (Double d : list) {
 			if (!map.containsKey(d)) map.put(d, 1);
