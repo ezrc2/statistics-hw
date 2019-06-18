@@ -102,7 +102,7 @@ public class StatsTool {
 		else
 			m = String.valueOf(modes.get(0));
 		String o = "";
-		if (outliers.size() > 0) {
+		if (outliers.size() > 0) { 
 			for (Double d : outliers)
 				o += d + ", ";
 			o = o.substring(0, o.length() - 2);
