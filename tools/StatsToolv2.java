@@ -40,7 +40,7 @@ public class StatsTool {
 			double n2 = list.get(list.size() / 2 - 1);
 			median = (n1 + n2) / 2;
 		}
-		else median = list.get(list.size() / 2 - 1);
+		else median = list.get(list.size() / 2);
 		
 		double sum = 0;
 		for (Double d : list)
@@ -51,7 +51,7 @@ public class StatsTool {
 		for (Double d : list)
 			sum += Math.pow(d - mean, 2);
 		stdDev = Math.sqrt(sum / (list.size() - 1));
-		 
+		
 		HashMap<Double, Integer> map = new HashMap<Double, Integer>();
 		for (Double d : list) {
 			if (!map.containsKey(d)) map.put(d, 1);
@@ -126,7 +126,7 @@ public class StatsTool {
 		ArrayList<Double> list = new ArrayList<Double>();
 		String line = in.readLine();
 		while (line != null) {
-			list.add(Double.parseDouble(line));
+			list.add(Double.parseDouble(line.trim()));
 			line = in.readLine();
 		}
 		
@@ -144,6 +144,12 @@ public class StatsTool {
 		in.close();
 		
 		j.setText(st.print());
+		
+		String s = "";
+		for (Double d : list) {
+			s += Math.round((d) * 100.0) / 100.0 + ", ";
+		}
+		System.out.println(s);
 	}
 
 }
