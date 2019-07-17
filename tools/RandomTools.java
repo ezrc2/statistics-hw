@@ -99,6 +99,74 @@ public class RandomTools {
 		System.out.println(count + " / " + trials);
 	}
 	
+	public void findTheAce(int trials) {
+		double sum = 0;
+		for (int i = 0; i < trials; i++) {
+			int n = (int)(Math.random() * 5 + 1);
+			switch (n) {
+			case 1:
+				sum += 100;
+				break;
+			case 2:
+				sum += 50;
+				break;
+			case 3:
+				sum += 20;
+				break;
+			case 4:
+				sum += 10;
+				break;
+			case 5:
+				sum += 5;
+				break;
+			}
+			System.out.print(n + " ");
+		}
+		System.out.println("\n" + sum);
+		System.out.println(sum / trials);
+	}
+	
+	public void esp() {
+		int[] original = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+		int[] arr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+		Random r = new Random();
+		int i = 0;
+		while (i++ < 20) {
+			for (int j = arr.length - 1; j >= 0; j--) {
+				int index = r.nextInt(j + 1);
+				int temp = arr[j];
+				arr[j] = arr[index];
+				arr[index] = temp;
+			}
+			int count = 0;
+			String s = "";
+			for (int k = 0; k < original.length; k++) {
+				if (original[k] == arr[k])
+					count++;
+				s += arr[k] + "  ";
+			}
+			System.out.println("trial " + i + ":   " + s + "   matches: " + count);
+		}
+	}
+	
+	public void bloodSugarLevels(int trials) {
+		int[] arr = {185, 163, 125, 151, 101, 190, 175, 178, 135, 201};
+		for (int i = 0; i < trials; i++) {
+			for (int j = arr.length - 1; j >= 0; j--) {
+				int index = (int)(Math.random() * j);
+				int temp = arr[j];
+				arr[j] = arr[index];
+				arr[index] = temp;
+			}
+			double sum1 = 0, sum2 = 0;
+			for (int j = 0; j < arr.length / 2; j++) {
+				sum1 += arr[j];
+				sum2 += arr[arr.length - j - 1];
+			}
+			System.out.print(Math.round(Math.abs((sum1 - sum2) / 5.0) * 100.0) / 100.0  + ", ");
+		}
+	}
+	
 	public static void main(String[] args) throws IOException {
 		BufferedReader in = new BufferedReader(new FileReader("C:\\Users\\ezche\\OneDrive\\Desktop\\statsinput.txt"));
 
@@ -112,7 +180,10 @@ public class RandomTools {
 		RandomTools rt = new RandomTools();
 		// rt.drawCards(list);
 		//rt.diceRoll(list);
-		rt.randomPairs(1000);
+		//rt.randomPairs(1000);
+		//rt.findTheAce(100);
+		//rt.esp();
+		rt.bloodSugarLevels(25);
 
 		in.close();
 	}
