@@ -167,6 +167,41 @@ public class RandomTools {
 		}
 	}
 	
+	private int[] shuffle(int size) {
+		int[] arr = new int[size];
+		for (int i = 0; i < arr.length; i++)
+			arr[i] = i;
+		for (int i = arr.length - 1; i >= 0; i--) {
+			int index = (int)(Math.random() * i);
+			int temp = arr[i];
+			arr[i] = arr[index];
+			arr[index] = temp;
+		}
+		return arr;
+	}
+	
+	public void ironDeficiency() {
+		int[] group1 = shuffle(280);
+		int[] group2 = shuffle(200);
+		String s1 = "", s2 = "";
+		for (int i = 0; i < group1.length; i++) {
+			if (i < group1.length / 2)
+				s1 += group1[i] + "  ";
+			else
+				s2 += group1[i] + "  ";
+		}
+		System.out.println("1A:  " + s1 + "\n1B:  " + s2 + "\n");
+		s1 = ""; 
+		s2 = "";
+		for (int i = 0; i < group2.length; i++) {
+			if (i < group2.length / 2)
+				s1 += group2[i] + "  ";
+			else
+				s2 += group2[i] + "  ";
+		}
+		System.out.println("2A:  " + s1 + "\n2B:  " + s2);	
+	}
+	
 	public static void main(String[] args) throws IOException {
 		BufferedReader in = new BufferedReader(new FileReader("C:\\Users\\ezche\\OneDrive\\Desktop\\statsinput.txt"));
 
@@ -183,7 +218,8 @@ public class RandomTools {
 		//rt.randomPairs(1000);
 		//rt.findTheAce(100);
 		//rt.esp();
-		rt.bloodSugarLevels(25);
+		//rt.bloodSugarLevels(25);
+		rt.ironDeficiency();
 
 		in.close();
 	}
