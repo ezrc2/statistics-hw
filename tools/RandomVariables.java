@@ -12,6 +12,10 @@ public class RandomVariables {
 //		4
 //		0 12 24 39
 //		1/2 1/4 3/13 1/52
+		
+//		6
+//		0 1 2 3 4 5
+//		0.05 0.24 0.36 0.13 0.14 0.08
 
 		int length = Integer.parseInt(in.readLine());
 		int[] x = new int[length];
