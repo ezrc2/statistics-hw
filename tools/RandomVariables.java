@@ -18,8 +18,8 @@ public class RandomVariables {
 //		0.05 0.24 0.36 0.13 0.14 0.08
 
 		int length = Integer.parseInt(in.readLine());
-		int[] x = new int[length];
-		double[] P = new double[length];
+		int[] x = new int[length]; // x
+		double[] P = new double[length]; // P(X = x)
 		
 		String[] s = in.readLine().split(" ");
 		for (int i = 0; i < x.length; i++) {
