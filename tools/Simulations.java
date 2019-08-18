@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class RandomTools {
+public class Simulations {
 
 	public void drawCards(ArrayList<Double> list) {
 		double total = 0;
@@ -202,25 +202,93 @@ public class RandomTools {
 		System.out.println("2A:  " + s1 + "\n2B:  " + s2);	
 	}
 	
+	public void diceRoll2() {
+		for (int i = 0; i < 30; i++) {
+			int count = 1;
+			int n = (int)(Math.random() * 6 + 1);
+			while (n != 1) {
+				n = (int)(Math.random() * 6 + 1);
+				count++;
+			}
+			System.out.print(count + "  ");
+		}
+	}
+	
+	public void seatBelts() {
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for (int i = 0; i < 30; i++) {
+			int count = 0;
+			int n = (int)(Math.random() * 4);
+			for (int j = 0; j < 5; j++) {
+				if (n == 0)
+					count++;
+				n = (int)(Math.random() * 4);
+			}
+			count = 5 - count;
+			if (map.containsKey(count))
+				map.put(count, map.get(count) + 1);
+			else
+				map.put(count, 1);
+			System.out.print(count + "  ");
+		}
+		System.out.println();
+		for (int k : map.keySet()) {
+			System.out.println(k + ": " + map.get(k));
+		}
+	}
+	
+	public void simulatedCoins(int trials) {
+		double sum = 0;
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < trials; j++) {
+				sum += (int)(Math.random() * 2);
+			}
+			//System.out.println("trial: " + (i + 1) + " \tevens: " + even + "\todds: " + odd);
+			System.out.print(sum / trials + ", ");
+			sum = 0;
+		}
+	}
+	
+	public void whyNP10(int size) {
+		final double p = 0.8;
+		String s = "v <- c(";
+		for (int i = 0; i < 100; i++) {
+			double sum = 0;
+			for (int j = 0; j < size; j++) {
+				if ((int)(Math.random() * 10) < 8)
+					sum++;
+			}
+			s += (sum / size) + ", ";
+			sum = 0;
+		}
+		//copy past to r console
+		s = s.substring(0, s.length() - 2) + ")\nhist(v, main = \"" + size + " people\", xlab = \"mean positive responses\", xlim = c(0.4, 1.2), col = \"blue\")";
+		System.out.println(s + "\n");
+	}
+	
 	public static void main(String[] args) throws IOException {
 		BufferedReader in = new BufferedReader(new FileReader("C:\\Users\\ezche\\OneDrive\\Desktop\\statsinput.txt"));
 
-		ArrayList<Double> list = new ArrayList<Double>();
-		String line = in.readLine();
-		while (line != null) {
-			list.add(Double.parseDouble(line.trim()));
-			line = in.readLine();
-		}
+//		ArrayList<Double> list = new ArrayList<Double>();
+//		String line = in.readLine();
+//		while (line != null) {
+//			list.add(Double.parseDouble(line.trim()));
+//			line = in.readLine();
+//		}
 
-		RandomTools rt = new RandomTools();
-		// rt.drawCards(list);
-		//rt.diceRoll(list);
-		//rt.randomPairs(1000);
-		//rt.findTheAce(100);
-		//rt.esp();
-		//rt.bloodSugarLevels(25);
-		rt.ironDeficiency();
-
+		Simulations s = new Simulations();
+		//s.drawCards(list);
+		//s.diceRoll(list);
+		//s.randomPairs(1000);
+		//s.findTheAce(100);
+		//s.esp();
+		//s.bloodSugarLevels(25);
+		//s.ironDeficiency();
+		//s.diceRoll2();
+		//s.seatBelts();
+		//s.simulatedCoins(25);
+		//s.simulatedCoins(100);
+		int[] arr = {5, 10, 20, 50, 100, 1000, 10000}; for (int x : arr) s.whyNP10(x);
 		in.close();
 	}
 
